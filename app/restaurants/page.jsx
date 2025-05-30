@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MapPin, Star, Tag, Clock, ForkKnife } from "lucide-react";
 import Image from "next/image";
 import PathBar from "../components/PathBar";
+import FiltersBar from "../components/FiltersBar";
 
 export const metadata = {
   title: "Tassir - Restaurants",
@@ -29,7 +30,9 @@ export default async function Page() {
   return (
     <section className="restaurants">
       <div className="container">
-        <PathBar restaurantName={null} />
+        <PathBar />
+        <FiltersBar />
+
         <h1 className="text-4xl font-extrabold mb-6 text-green-700">
           Discover the Best Restaurants in Your City
         </h1>

@@ -3,6 +3,7 @@ import clientPromise from "../../lib/mongodb";
 import Image from "next/image";
 import { MapPin, Star, Clock } from "lucide-react";
 import PathBar from "../../components/PathBar";
+import FiltersBar from "@/app/components/FiltersBar";
 
 export async function generateMetadata({ params }) {
   const client = await clientPromise;
@@ -32,6 +33,8 @@ export default async function RestaurantPage({ params }) {
     <>
       <section className="restaurant-details container mx-auto p-6">
         <PathBar restaurantName={restaurant.name} />
+        <FiltersBar />
+
         <h1 className="text-3xl font-bold mb-4">{restaurant.name}</h1>
         <div className="flex items-center gap-1 mb-4">
           <Star size={20} className="text-green-600" />
