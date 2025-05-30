@@ -7,9 +7,12 @@ export const metadata = {
 };
 
 export async function fetchRestaurants() {
-  const res = await fetch("http://localhost:3000/api/restaurants", {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/restaurants`,
+    {
+      cache: "no-store",
+    }
+  );
   const restaurants = await res.json();
   return restaurants;
 }
@@ -24,8 +27,8 @@ export default async function Page() {
         <div className="restaurants grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {restaurants.map((restaurant) => (
             <Link
-              href={`/restaurant/${restaurant.id}`}
-              key={restaurant.id}
+              key={restaurant._id}
+              href={`/restaurant/${restaurant._id}`}
               className="restaurant-card card flex flex-col gap-4 bg-green-50 border-2 border-green-100 shadow-md hover:shadow-2xl hover:shadow-green-200 transition duration-300 ease-in-out shadow-green-50 p-4 rounded-xl"
             >
               <div className="card-image">
