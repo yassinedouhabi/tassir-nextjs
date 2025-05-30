@@ -7,12 +7,7 @@ export const metadata = {
 };
 
 export async function fetchRestaurants() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/restaurants`,
-    {
-      cache: "no-store",
-    }
-  );
+  const res = await fetch("/api/restaurants", { cache: "no-store" });
   const restaurants = await res.json();
   return restaurants;
 }
