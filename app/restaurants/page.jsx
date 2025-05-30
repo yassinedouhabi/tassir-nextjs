@@ -33,7 +33,7 @@ export default async function Page() {
           {restaurants.map((restaurant) => (
             <Link
               key={restaurant._id}
-              href={`/restaurant/${restaurant._id}`}
+              href={`/restaurants/${restaurant._id}`}
               className="restaurant-card card flex flex-col gap-4 bg-green-50 border-2 border-green-100 shadow-md hover:shadow-2xl hover:shadow-green-200 transition duration-300 ease-in-out shadow-green-50 p-4 rounded-xl"
             >
               <div className="card-image">
