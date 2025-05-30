@@ -6,8 +6,18 @@ export const metadata = {
   title: "Tassir - Restaurants",
 };
 
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://tassir-nextjs.vercel.app";
+
 export async function fetchRestaurants() {
-  const res = await fetch("/api/restaurants", { cache: "no-store" });
+  const res = await fetch(`${BASE_URL}/api/restaurants`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch restaurants");
+
   const restaurants = await res.json();
   return restaurants;
 }
