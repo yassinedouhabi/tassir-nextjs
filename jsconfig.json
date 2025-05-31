@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./app/*"], // Use "pages/*" if using Pages Router
+      "@components/*": ["./components/*"]
     }
   }
 }
