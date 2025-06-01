@@ -13,6 +13,7 @@ importers:
         version: 2.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.15
+<<<<<<< HEAD
         version: 2.1.15(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-label':
         specifier: ^2.1.7
@@ -20,6 +21,12 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.1.6)(react@19.1.0)
+=======
+        version: 2.1.15(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-slot':
+        specifier: ^1.2.3
+        version: 1.2.3(react@19.1.0)
+>>>>>>> 35c90ea (chore: update devDependencies in package.json and pnpm-lock.yaml)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
