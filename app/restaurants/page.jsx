@@ -13,10 +13,10 @@ export default async function RestaurantsPage() {
   return (
     <section className="restaurants">
       <div className="container">
-        <h1 className="text-4xl font-extrabold mb-6 text-green-600 dark:text-green-400">
+        <h1 className="text-xl md:text-4xl font-extrabold mb-6 text-green-600 dark:text-green-400">
           Discover the Best Restaurants in Your City
         </h1>
-        <p className="text-lg mb-10 max-w-2xl text-neutral-800 dark:text-neutral-200">
+        <p className="text-sm md:text-lg mb-10 max-w-2xl text-neutral-800 dark:text-neutral-200">
           Enjoy delicious meals and top-quality dishes with a wide variety to
           suit every taste. Choose your favorite restaurant and start your
           amazing food journey!

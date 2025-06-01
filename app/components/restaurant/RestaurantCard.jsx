@@ -6,7 +6,7 @@ import { MapPin, Star, Tag, Clock, ForkKnife } from "lucide-react";
 
 export default function RestaurantCard({ restaurant }) {
   return (
-    <div className="restaurant-card card flex flex-col gap-4 bg-green-50 border-2 border-transparent hover:border-green-300 dark:bg-green-950 dark:hover:border-green-700 transition-all duration-200 ease-in-out rounded-xl overflow-hidden transform hover:scale-[1.01] hover:shadow-md hover:shadow-slate-300 dark:hover:shadow-slate-800">
+    <div className="restaurant-card card flex flex-col gap-4 border-2 border-transparent hover:border-green-200 bg-green-100 dark:bg-card text-card-foreground dark:hover:border-accent transition-all duration-200 ease-in-out rounded-xl overflow-hidden transform hover:scale-[1.01]">
       <Image
         src={restaurant.image}
         alt={restaurant.name}

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,24 +12,27 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { User } from 'lucide-react';
+} from "@/components/ui/dropdown-menu";
+import { User } from "lucide-react";
+import Link from "next/link";
 
 export default function DropdownMenuDemo() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline'>
+        <Button variant="outline">
           <User />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-56' align='start'>
-        {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+      <DropdownMenuContent className="w-56" align="start">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>Login</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href="/login">Login</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuGroup>
-          <DropdownMenuItem>Sign Up</DropdownMenuItem>
+          <DropdownMenuItem href="/register">Register</DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
