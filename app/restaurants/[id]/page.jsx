@@ -101,18 +101,32 @@ export default async function RestaurantPage({ params }) {
             </div>
           </div>
           {/* Restaurant Map */}
-          <div className="restaurant-map mt-6 flex flex-col gap-6">
-            <div className="map-text">
-              <h3>Map</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Commodi, officia voluptatem id corrupti quas est omnis ad iste
-                quae eaque? Magnam, voluptatem. Itaque eveniet, tenetur aliquam
-                voluptas quos placeat inventore.
+          <div className="restaurant-map mt-6 flex flex-col gap-6 mb-6">
+            <div className="map-text flex flex-col gap-y-2">
+              <h3 className="text-xl md:text-2xl font-bold">
+                See If The Restaurant Is Near You
+              </h3>
+              <p className="text-xs text-accent-foreground">
+                Check the map below to find our location and see how close we
+                are to you. We look forward to welcoming you!
               </p>
             </div>
-            <Image src={MapImage} alt="map" className="rounded-xl" />
+            <Image
+              src={MapImage}
+              alt="Map showing the restaurant location"
+              className="rounded-xl"
+            />
           </div>
+
+          {/* Policies and Privacy */}
+          <p className="text-xs text-muted-foreground">
+            We value your trust and are committed to protecting your privacy.
+            Please take a moment to read our{" "}
+            <a href="/policies" className="underline hover:text-primary">
+              Policies and Privacy Notice
+            </a>{" "}
+            to understand how we collect, use, and safeguard your information.
+          </p>
         </div>
       </div>
     </section>
