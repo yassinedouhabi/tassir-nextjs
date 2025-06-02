@@ -1,9 +1,5 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,13 +17,6 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Loader2Icon } from 'lucide-react';
-
-import { AuthFormFields } from './AuthFormFields';
-
-const loginSchema = z.object({
-  email: z.string().email({ message: 'Invalid email' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
-});
 
 export function LoginForm({ className, ...props }) {
   const [email, setEmail] = useState('');
@@ -68,7 +57,6 @@ export function LoginForm({ className, ...props }) {
       window.location.href = '/';
     }
   };
-
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className='overflow-hidden p-0'>
