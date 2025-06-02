@@ -21,11 +21,7 @@ export default function RootLayout({ children }) {
     <html lang='en' suppressHydrationWarning>
       <body className={`${spaceGrotesk.className} antialiased`}>
         <ClientSessionProvider>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
             <Header />
             {children}
             <Toaster richColors position='top-right' />

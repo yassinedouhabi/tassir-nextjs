@@ -4,27 +4,25 @@ import { useSession, signOut } from 'next-auth/react';
 import { toast } from 'sonner';
 import { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { User } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Profile() {
   const { data: session, status } = useSession();
   const firstRender = useRef(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (status === 'authenticated' && session && firstRender.current) {
-      toast.success(
-        `Welcome back, ${session.user?.name || session.user?.email}!`
-      );
+      toast.success(`Welcome back, ${session.user?.name || session.user?.email}!`);
+
       firstRender.current = false;
+
+      if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+        router.push('/');
+      }
     }
   }, [session, status]);
 
@@ -46,16 +44,10 @@ export default function Profile() {
         <DropdownMenuGroup>
           {session ? (
             <>
-              <DropdownMenuItem disabled>
-                {session.user?.name
-                  ? `${session.user.name} (${session.user.email})`
-                  : session.user.email}
+              <DropdownMenuItem className='font-bold' disabled>
+                {session.user?.name ? `${session.user.email} ` : 'please check your google account'}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={handleLogout}
-                className='bg-red-200 text-red-500 hover:bg-red-500 hover:text-red-200 '>
-                Logout
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </>
           ) : (
             <>
