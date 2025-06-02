@@ -3,6 +3,9 @@ import { Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 
+import { Toaster } from 'sonner';
+import { ClientSessionProvider } from '@/components/ClientSessionProvider';
+
 const spaceGrotesk = Space_Grotesk({
   weight: ['300', '700'],
   subsets: ['latin'],
@@ -17,14 +20,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${spaceGrotesk.className} antialiased`}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange>
-          <Header />
-          {children}
-        </ThemeProvider>
+        <ClientSessionProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange>
+            <Header />
+            {children}
+            <Toaster richColors position='top-right' />
+          </ThemeProvider>
+        </ClientSessionProvider>
       </body>
     </html>
   );
