@@ -122,9 +122,9 @@ export default async function RestaurantPage({ params }) {
           <p className="text-xs text-muted-foreground">
             We value your trust and are committed to protecting your privacy.
             Please take a moment to read our{" "}
-            <a href="/policies" className="underline hover:text-primary">
+            <Link href="/policies" className="underline hover:text-primary">
               Policies and Privacy Notice
-            </a>{" "}
+            </Link>
             to understand how we collect, use, and safeguard your information.
           </p>
         </div>
