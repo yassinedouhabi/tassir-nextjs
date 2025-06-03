@@ -35,7 +35,7 @@ export default function EmptyRestaurants() {
         later, or become the pioneer by adding the very first restaurant!
       </p>
 
-      <div className='flex flex-row items-center justify-center gap-4'>
+      <div className='flex flex-col md:flex-row items-center justify-center gap-4'>
         <LoadingButton
           onClick={() => location.reload()}
           loading='Reloading...'

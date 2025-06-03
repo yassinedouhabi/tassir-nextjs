@@ -13,7 +13,7 @@ export default async function RestaurantsPage() {
   const restaurants = await fetchRestaurants();
 
   return (
-    <section className='restaurants py-12'>
+    <section className='restaurants flex-1 py-12'>
       <div className='container'>
         {restaurants.length > 0 ? (
           <>
