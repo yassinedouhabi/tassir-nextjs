@@ -19,13 +19,23 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <body className={`${spaceGrotesk.className} min-h-screen flex flex-col antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${spaceGrotesk.className} min-h-screen flex flex-col antialiased`}
+      >
         <ClientSessionProvider>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <Header />
-            <Toaster richColors position='top-right' />
-            <main className='flex-1'>{children}</main>
+            <Toaster richColors position="top-right" />
+            <main className="flex-1 relative">
+              {children}
+            </main>
+
             <Footer />
           </ThemeProvider>
         </ClientSessionProvider>
