@@ -8,8 +8,13 @@ import { Button } from '@/components/ui/button';
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+
+import Avvvatars from 'avvvatars-react';
+import NotificationCenter from '@/components/NotificationCenter/NotificationCenter';
 
 export default function Header() {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const firstRender = useRef(true);
 
@@ -37,8 +42,42 @@ export default function Header() {
           </div>
           <div className="nav-links">
             <div className="flex flex-row items-center gap-2">
-              <Button>Login</Button>
-              <Button variant="outline">Sign Up</Button>
+              {status === 'loading' ? null : status !==
+                'authenticated' ? (
+                <>
+                  <Button
+                    size="sm"
+                    onClick={() => router.push('/login')}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => router.push('/register')}
+                  >
+                    Sign Up
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div className="notifications">
+                    <NotificationCenter />
+                  </div>
+                  <Profile />
+                  {/* <Avvvatars
+                    size={40}
+                    shadow={true}
+                    radius={50}
+                    border={true}
+                    value={
+                      session.user.username ||
+                      session.user.name ||
+                      session.user.email
+                    }
+                  /> */}
+                </>
+              )}
             </div>
           </div>
         </nav>

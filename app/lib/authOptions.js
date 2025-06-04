@@ -23,15 +23,24 @@ export const authOptions = {
 
       async authorize(credentials) {
         const client = await clientPromise;
-        const usersCollection = client.db('authDB').collection('users');
+        const usersCollection = client
+          .db('authDB')
+          .collection('users');
 
-        const user = await usersCollection.findOne({ email: credentials.email });
+        const user = await usersCollection.findOne({
+          email: credentials.email,
+        });
 
         if (!user) {
-          throw new Error('No user found or the password is incorrect.');
+          throw new Error(
+            'No user found or the password is incorrect.'
+          );
         }
 
-        const isValid = await compare(credentials.password, user.password);
+        const isValid = await compare(
+          credentials.password,
+          user.password
+        );
 
         if (!isValid) {
           throw new Error('Incorrect password');

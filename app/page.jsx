@@ -6,6 +6,8 @@ import HeroImage from '../public/images/hero-image.jpg';
 import LoadingButton from './components/LoadingButton';
 import { useState } from 'react';
 
+import TriggerNotification from '@/components/TriggerNotification';
+
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,6 +51,7 @@ export default function Page() {
           size="lg"
           className="md:w-1/2"
         />
+        <TriggerNotification />
       </div>
     </div>
   );
