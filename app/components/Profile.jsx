@@ -4,7 +4,14 @@ import { useSession, signOut } from 'next-auth/react';
 import { toast } from 'sonner';
 import { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -15,11 +22,20 @@ export default function Profile() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'authenticated' && session && !sessionStorage.getItem('welcomeToastShown')) {
-      toast.success(`Welcome back, ${session.user?.username || session.user?.email}!`);
+    if (
+      status === 'authenticated' &&
+      session &&
+      !sessionStorage.getItem('welcomeToastShown')
+    ) {
+      toast.success(
+        `Welcome back, ${session.user?.username || session.user?.email}!`
+      );
       sessionStorage.setItem('welcomeToastShown', 'true');
 
-      if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+      if (
+        window.location.pathname === '/login' ||
+        window.location.pathname === '/register'
+      ) {
         router.replace('/');
       }
     }
@@ -33,28 +49,33 @@ export default function Profile() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' aria-label='User menu'>
+        <Button variant="outline" aria-label="User menu">
           <User />
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className='w-56' align='start'>
+      <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
           {session ? (
             <>
-              <DropdownMenuItem className='font-bold' disabled>
+              <DropdownMenuItem
+                className="font-bold"
+                disabled
+              >
                 {session.user?.username}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
+                Logout
+              </DropdownMenuItem>
             </>
           ) : (
             <>
               <DropdownMenuItem asChild>
-                <Link href='/login'>Login</Link>
+                <Link href="/login">Login</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href='/register'>Register</Link>
+                <Link href="/register">Register</Link>
               </DropdownMenuItem>
             </>
           )}

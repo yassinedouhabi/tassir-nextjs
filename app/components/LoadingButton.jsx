@@ -1,46 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { Button } from '@/components/ui/button';
 
-export default function LoadingButton({
-  type = 'button',
-  route,
-  loading,
-  notLoading,
-  loadingIcon: LoadingIcon,
-  notLoadingIcon: NotLoadingIcon,
-  variant,
-  size,
-  onClick,
-  className,
-  isLoading: externalIsLoading, // NEW
-}) {
+export default function LoadingButton({ type = 'button', route = null, loading = 'Loading...', notLoading = 'Submit', loadingIcon: LoadingIcon = null, notLoadingIcon: NotLoadingIcon = null, variant = 'default', size = 'md', onClick = null, className = '', isLoading = false }) {
   const router = useRouter();
 
-  const isLoading = externalIsLoading ?? false;
-
-  function handleClick(e) {
-    if (onClick) {
-      onClick(e);
-    }
-
-    if (route) {
-      router.push(route);
-    }
-  }
+  const handleClick = useCallback(
+    (e) => {
+      if (onClick) {
+        onClick(e);
+      }
+      if (route) {
+        router.push(route);
+      }
+    },
+    [onClick, route, router]
+  );
+  const combinedClassName = `flex items-center justify-center ${className}`;
 
   return (
-    <Button type={type} onClick={handleClick} disabled={isLoading} size={size} variant={variant} className={className}>
+    <Button type={type} onClick={handleClick} disabled={isLoading} size={size} variant={variant} className={combinedClassName} aria-busy={isLoading} aria-disabled={isLoading}>
       {isLoading ? (
         <>
-          {LoadingIcon && <LoadingIcon className='animate-spin' size={16} />}
+          {LoadingIcon && <LoadingIcon className='animate-spin mr-2' size={16} />}
           {loading}
         </>
       ) : (
-        <div className='flex flex-row items-center gap-x-2'>
+        <div className='flex items-center gap-2'>
           {NotLoadingIcon && <NotLoadingIcon size={16} />}
           {notLoading}
         </div>
@@ -49,7 +38,6 @@ export default function LoadingButton({
   );
 }
 
-// Define prop types for validation & clarity
 LoadingButton.propTypes = {
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   route: PropTypes.string,
