@@ -1,112 +1,91 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Loader2Icon } from 'lucide-react';
 
-export default function RegisterForm() {
+import { registerSchema } from '@/lib/registerSchema';
+import { Form } from '@/components/ui/form';
+import LoadingButton from '@/components/LoadingButton';
+import { Loader2Icon, LogIn } from 'lucide-react';
+
+import FirstNameField from '@/components/forms/fields/FirstNameField';
+import LastNameField from '@/components/forms/fields/LastNameField';
+import UsernameField from '@/components/forms/fields/UsernameField';
+import AgeField from '@/components/forms/fields/AgeField';
+import EmailField from '@/components/forms/fields/EmailField';
+import PasswordField from '@/components/forms/fields/PasswordField';
+import ConfirmPasswordField from '@/components/forms/fields/ConfirmPasswordField';
+import PhoneNumberField from '@/components/forms/fields/PhoneNumberField';
+import AcceptPrivacyCheckbox from '@/components/forms/fields/AcceptPrivacyCheckbox';
+import EmailMarketingCheckbox from '@/components/forms/fields/EmailMarketingCheckbox';
+
+export default function UserForm() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const form = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      username: '',
+      age: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      phoneNumber: '',
+      acceptPrivacy: false,
+      emailMarketing: false,
+    },
+  });
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      const { confirmPassword, ...submitData } = data;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submitData),
+      });
 
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
+      const result = await response.json();
 
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    if (res.ok) {
-      setTimeout(() => {
+      if (response.ok) {
+        toast.success('Registration successful!');
         router.push('/login');
-        toast.success('Your registder successfully!', 3000);
-      }, 2000);
-      setLoading(true);
-    } else {
-      const data = await res.json();
-      toast.error(data.message || 'Something went wrong');
+      } else {
+        toast.error(result.error || 'Registration error');
+        console.error('Registration error:', result.error);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      toast.error('Network error, please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className='max-w-lg mx-auto flex items-center justify-center mt-8'>
-      <Card className='w-full max-w-md shadow-xl'>
-        <CardHeader>
-          <CardTitle className='text-2xl'>Create an Account</CardTitle>
-        </CardHeader>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4 max-w-md mx-auto p-4'>
+        <FirstNameField control={form.control} />
+        <LastNameField control={form.control} />
+        <UsernameField control={form.control} />
+        <AgeField control={form.control} />
+        <EmailField control={form.control} />
+        <PasswordField control={form.control} />
+        <ConfirmPasswordField control={form.control} />
+        <PhoneNumberField control={form.control} />
+        <AcceptPrivacyCheckbox control={form.control} />
+        <EmailMarketingCheckbox control={form.control} />
 
-        <CardContent>
-          <form onSubmit={handleSubmit} className='grid gap-6'>
-            {/* Name */}
-            <div className='grid gap-2'>
-              <Label htmlFor='name'>Name</Label>
-              <Input id='name' type='text' placeholder='John Doe' value={name} onChange={(e) => setName(e.target.value)} />
-            </div>
-
-            {/* Email */}
-            <div className='grid gap-2'>
-              <Label htmlFor='email'>Email</Label>
-              <Input id='email' type='email' placeholder='you@example.com' value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-
-            {/* Password */}
-            <div className='grid gap-2'>
-              <Label htmlFor='password'>Password</Label>
-              <Input id='password' type='password' placeholder='••••••••' value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-
-            {/* Confirm Password */}
-            <div className='grid gap-2'>
-              <Label htmlFor='confirm-password'>Confirm Password</Label>
-              <Input id='confirm-password' type='password' placeholder='••••••••' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-            </div>
-
-            {/* Error */}
-            {error && <p className='text-sm text-red-500 text-center'>{error}</p>}
-
-            {/* Submit */}
-            <Button type='submit' className='w-full' disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2Icon className='animate-spin' />
-                  Please wait
-                </>
-              ) : (
-                'Register'
-              )}
-            </Button>
-
-            {/* Link to login */}
-            <div className='text-center text-sm'>
-              Already have an account?{' '}
-              <a href='/login' className='text-blue-600 hover:underline'>
-                Login
-              </a>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+        <LoadingButton type='submit' isLoading={isLoading} loading='Registering...' notLoading='Submit' variant='default' size='lg' loadingIcon={Loader2Icon} notLoadingIcon={LogIn} className='w-full' />
+      </form>
+    </Form>
   );
 }

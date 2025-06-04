@@ -1,31 +1,53 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { CircleChevronLeft, Loader2Icon } from 'lucide-react';
+import PropTypes from 'prop-types';
 import { Button } from '@/components/ui/button';
 
-export default function LoadingButton({ route, loading, notLoading }) {
+export default function LoadingButton({ type = 'button', route = null, loading = 'Loading...', notLoading = 'Submit', loadingIcon: LoadingIcon = null, notLoadingIcon: NotLoadingIcon = null, variant = 'default', size = 'md', onClick = null, className = '', isLoading = false }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
 
-  function handleClick() {
-    setIsLoading(true);
-    router.push(route);
-  }
+  const handleClick = useCallback(
+    (e) => {
+      if (onClick) {
+        onClick(e);
+      }
+      if (route) {
+        router.push(route);
+      }
+    },
+    [onClick, route, router]
+  );
+  const combinedClassName = `flex items-center justify-center ${className}`;
+
   return (
-    <Button onClick={handleClick} disabled={isLoading} size='sm' className='back-home-link flex flex-row items-center gap-x-2 bg-accent-foreground text-sm font-bold px-4 py-2 rounded w-fit mb-4 md:mb-8'>
+    <Button type={type} onClick={handleClick} disabled={isLoading} size={size} variant={variant} className={combinedClassName} aria-busy={isLoading} aria-disabled={isLoading}>
       {isLoading ? (
         <>
-          <Loader2Icon className='animate-spin' />
+          {LoadingIcon && <LoadingIcon className='animate-spin mr-2' size={16} />}
           {loading}
         </>
       ) : (
-        <div className='flex flex-row items-center gap-x-2'>
-          <CircleChevronLeft size={16} />
+        <div className='flex items-center gap-2'>
+          {NotLoadingIcon && <NotLoadingIcon size={16} />}
           {notLoading}
         </div>
       )}
     </Button>
   );
 }
+
+LoadingButton.propTypes = {
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  route: PropTypes.string,
+  loading: PropTypes.node,
+  notLoading: PropTypes.node,
+  loadingIcon: PropTypes.elementType,
+  notLoadingIcon: PropTypes.elementType,
+  variant: PropTypes.string,
+  size: PropTypes.string,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  isLoading: PropTypes.bool,
+};

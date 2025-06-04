@@ -1,28 +1,34 @@
-import { hash } from 'bcrypt';
 import clientPromise from '@/lib/mongodb';
+import bcrypt from 'bcryptjs';
 
 export async function POST(req) {
-  const { email, name, password } = await req.json();
+  try {
+    const client = await clientPromise;
+    const db = client.db('authDB');
 
-  if (!email || !password || !name) {
-    return new Response(JSON.stringify({ message: 'All fields are required' }), { status: 400 });
+    const data = await req.json();
+
+    if (!data.email || !data.password) {
+      return new Response(JSON.stringify({ error: 'Missing email or password' }), { status: 400 });
+    }
+
+    data.password = await bcrypt.hash(data.password, 10);
+
+    const users = db.collection('users');
+
+    const existingUser = await users.findOne({ email: data.email });
+
+    if (existingUser) {
+      return new Response(JSON.stringify({ error: 'User already exists' }), { status: 409 });
+    }
+
+    const result = await users.insertOne(data);
+
+    return new Response(JSON.stringify({ message: 'User registered', id: result.insertedId }), {
+      status: 201,
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
-
-  const client = await clientPromise;
-  const db = client.db('authDB');
-  const usersCollection = await db.collection('users');
-
-  const existingUser = await usersCollection.findOne({ email });
-  if (existingUser) {
-    return new Response(JSON.stringify({ message: 'Email already registered' }), { status: 400 });
-  }
-
-  const hashedPassword = await hash(password, 10);
-  await usersCollection.insertOne({
-    email,
-    name,
-    password: hashedPassword,
-  });
-
-  return new Response(JSON.stringify({ message: 'User created' }), { status: 201 });
 }
