@@ -15,16 +15,15 @@ export default function Profile() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'authenticated' && session && firstRender.current) {
-      toast.success(`Welcome back, ${session.user?.name || session.user?.email}!`);
-
-      firstRender.current = false;
+    if (status === 'authenticated' && session && !sessionStorage.getItem('welcomeToastShown')) {
+      toast.success(`Welcome back, ${session.user?.username || session.user?.email}!`);
+      sessionStorage.setItem('welcomeToastShown', 'true');
 
       if (window.location.pathname === '/login' || window.location.pathname === '/register') {
-        router.push('/');
+        router.replace('/');
       }
     }
-  }, [session, status]);
+  }, [session, status, router]);
 
   const handleLogout = () => {
     signOut();
@@ -45,7 +44,7 @@ export default function Profile() {
           {session ? (
             <>
               <DropdownMenuItem className='font-bold' disabled>
-                {session.user?.name ? `${session.user.email} ` : 'please check your google account'}
+                {session.user?.username}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import ModeToggle from '@/components/ModeToggle';
 import Logo from '@/components/Logo';
 
-import Profile from './Profile';
+import Profile from '../Profile';
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef } from 'react';
@@ -30,12 +30,6 @@ export default function Header() {
           </div>
           <div className='nav-links'>
             <div className='flex flex-row items-center gap-2'>
-              {session?.user && (
-                <div className='text-xs mr-4 flex flex-row flex-wrap items-center gap-1'>
-                  <h3 className='welcome-user'>Welcome</h3>
-                  <p className='user-name font-bold text-green-500'>{session.user.name}</p>
-                </div>
-              )}
               <Profile />
               <ModeToggle />
             </div>

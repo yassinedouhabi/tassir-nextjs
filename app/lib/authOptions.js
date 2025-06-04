@@ -14,13 +14,13 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
 
-    // Manual Login with Email & Password
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
+
       async authorize(credentials) {
         const client = await clientPromise;
         const usersCollection = client.db('authDB').collection('users');
@@ -28,7 +28,7 @@ export const authOptions = {
         const user = await usersCollection.findOne({ email: credentials.email });
 
         if (!user) {
-          throw new Error('This user can not found. Please create your account');
+          throw new Error('No user found or the password is incorrect.');
         }
 
         const isValid = await compare(credentials.password, user.password);
@@ -40,7 +40,7 @@ export const authOptions = {
         return {
           id: user._id.toString(),
           email: user.email,
-          name: user.name,
+          username: user.username,
         };
       },
     }),
@@ -48,6 +48,23 @@ export const authOptions = {
   session: {
     strategy: 'jwt',
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.username = user.username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.email = token.email;
+      session.user.username = token.username;
+      return session;
+    },
+  },
+
   pages: {
     signIn: '/login',
   },

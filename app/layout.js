@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import { Space_Grotesk } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/Header';
+import Header from '@/components/layout/Header';
 
 import { Toaster } from 'sonner';
 import { ClientSessionProvider } from '@/components/ClientSessionProvider';
@@ -20,14 +20,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body
-        className={`${spaceGrotesk.className} min-h-screen flex flex-col antialiased`}>
+      <body className={`${spaceGrotesk.className} min-h-screen flex flex-col antialiased`}>
         <ClientSessionProvider>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
             <Header />
             <Toaster richColors position='top-right' />
             <main className='flex-1'>{children}</main>
