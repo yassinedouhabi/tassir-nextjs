@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Button } from '../../ui/button';
+import SearchBar from '../../SearchBar';
 
 export default function HeroSection() {
   return (
@@ -18,8 +18,8 @@ export default function HeroSection() {
 
       <div className="hero-content relative -z-10 flex flex-col items-center md:items-start justify-center dark:text-accent-foreground text-center md:text-start px-4 py-20 text-shadow-xs">
         <div className="absolute inset-0 bg-gradient-to-r from-white/70  dark:from-black/70 dark:via-black/50 via-white/50 to-transparent z-0" />
-        <div className="container relative z-10 flex flex-col gap-8">
-          <div className="hero-text flex flex-col gap-2 w-full md:w-1/2">
+        <div className="container relative z-10 flex flex-col items-center justify-center gap-8">
+          <div className="hero-text flex flex-col items-center justify-center text-center gap-2 w-full md:w-1/2">
             <h1 className="scroll-m-20 text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-tight text-balance">
               Crave It. Order It. Love It.
             </h1>
@@ -30,15 +30,7 @@ export default function HeroSection() {
               delicious food, anytime you want it.
             </p>
           </div>
-          <div className="cta w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-            <Button
-              variant={'default'}
-              size={'lg'}
-              className={'w-full'}
-            >
-              Login
-            </Button>
-          </div>
+          <SearchBar />
         </div>
       </div>
     </div>
